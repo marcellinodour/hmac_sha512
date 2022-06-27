@@ -92,8 +92,8 @@ std::string hmac_sha512(const std::string key,
 
         void* out = malloc(SHA512_HASH_SIZE);
   
-        unsigned char* binKey = malloc(key.size() / 2);
-        unsigned char* binData = malloc(data.size() / 2);
+        unsigned char* binKey = (unsigned char*) malloc(key.size() / 2);
+        unsigned char* binData = (unsigned char*) malloc(data.size() / 2);
   
         hexStringToBin(binKey, key.c_str());
         hexStringToBin(binData, data.c_str());
