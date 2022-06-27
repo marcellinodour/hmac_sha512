@@ -6,6 +6,7 @@ extern "C" {
 #endif  // __cplusplus
 
 #include <stddef.h>
+#include <string>
 
 std::string  
 hmac_sha512(
