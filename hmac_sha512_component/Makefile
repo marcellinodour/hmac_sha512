@@ -4,7 +4,7 @@ LIBS=-lpython3.9
 COMPOSANT = hmac_sha512_component
 
 LIBSO = ${COMPOSANT}.so
-LIBSO_OBJS = ${COMPOSANT}.o
+LIBSO_OBJS = ${COMPOSANT}.o sha512.o
 
 include ../gcc.mk
 include ../pybind11.mk

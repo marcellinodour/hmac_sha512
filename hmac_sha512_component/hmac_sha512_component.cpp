@@ -2,6 +2,7 @@
 #include "sha512.h"
 
 #include <stdlib.h>
+#include <string>
 #include <string.h>
 
 #define SHA512_BLOCK_SIZE 128
@@ -23,12 +24,12 @@ static void* sha512(const void* data,
                     const size_t outlen);
 
 // Declared in hmac_sha512.h
-size_t hmac_sha512(const void* key,
+size_t hmac_sha512_internal(const void* key,
                    const size_t keylen,
                    const void* data,
                    const size_t datalen,
                    void* out,
-                   const size_t outlen) {
+                   const size_t outlen {
   uint8_t k[SHA512_BLOCK_SIZE];
   uint8_t k_ipad[SHA512_BLOCK_SIZE];
   uint8_t k_opad[SHA512_BLOCK_SIZE];
@@ -62,6 +63,22 @@ size_t hmac_sha512(const void* key,
   sz = (outlen > SHA512_HASH_SIZE) ? SHA512_HASH_SIZE : outlen;
   memcpy(out, ohash, sz);
   return sz;
+}
+
+std::string hmac_sha512(const std::string key,
+                   const std::string data) {
+
+        void* out = malloc(SHA512_HASH_SIZE);
+        size_t result = hmac_sha512_internal(key.c_str(), key.size(), 
+                                                data.c_str(), data.size(),
+                                                out, SHA512_HASH_SIZE);
+
+        char buf[2*SHA512_HASH_SIZE+1];
+        buf[2*SHA512_HASH_SIZE] = 0;
+        for (int i = 0; i < SHA512_HASH_SIZE; i++)
+                sprintf(buf+i*2, "%02x", out[i]);
+        return std::string(buf);
+          
 }
 
 static void* H(const void* x,

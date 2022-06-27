@@ -42,7 +42,8 @@ typedef struct
 //  Initialises a SHA512 Context. Use this to initialise/reset a context.
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #ifdef __cplusplus
-extern "C" {
+extern "C" 
+{
 #endif
 
 void
@@ -78,6 +79,6 @@ void
         SHA512_HASH*        Digest          // [out]
     );
 
-#ifdef _cplusplus
+#ifdef __cplusplus
 }
 #endif
