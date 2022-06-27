@@ -98,4 +98,12 @@ static void* sha512(const void* data,
   return memcpy(out, hash.bytes, sz);
 }
 
+#include <pybind11/pybind11.h>
 
+namespace py = pybind11;
+
+PYBIND11_MODULE(hmac_sha512_component,greetings)
+{
+  greetings.doc() = "greeting_object 1.0";
+  greetings.def("hmac_sha512", &hmac_sha512);
+}
