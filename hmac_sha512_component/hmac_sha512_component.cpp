@@ -1,9 +1,12 @@
 #include "hmac_sha512.h"
 #include "sha512.h"
 
+#include <iostream>
 #include <stdlib.h>
 #include <string>
 #include <string.h>
+
+using namespace std;
 
 #define SHA512_BLOCK_SIZE 128
 
@@ -82,7 +85,7 @@ unsigned char hexchr2bin(const char hex)
 }
 
 void hexStringToBin(unsigned char *out,const char * hexPrivate) {
-    for (int i=0; i< (strlen(hexPrivate) / 2); i++){
+    for (int i=0; i< (strlen(hexPrivate)/2); i++){
 	out[i] = hexchr2bin(hexPrivate[2*i])<<4 | hexchr2bin(hexPrivate[2*i+1]);
     }
 }
@@ -91,15 +94,15 @@ std::string hmac_sha512(const std::string key,
                    const std::string data) {
 
         void* out = malloc(SHA512_HASH_SIZE);
-  
+
         unsigned char* binKey = (unsigned char*) malloc(key.size() / 2);
         unsigned char* binData = (unsigned char*) malloc(data.size() / 2);
-  
+
         hexStringToBin(binKey, key.c_str());
         hexStringToBin(binData, data.c_str());
-  
-        size_t result = hmac_sha512_internal(binKey, (key.size() / 2), 
-                                                binData, (data.size() / 2),
+
+        size_t result = hmac_sha512_internal(binKey, key.size()/2, 
+                                                binData, data.size()/2,
                                                 out, SHA512_HASH_SIZE);
 
         char buf[2*SHA512_HASH_SIZE+1];
