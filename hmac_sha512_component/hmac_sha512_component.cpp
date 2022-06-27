@@ -29,7 +29,7 @@ size_t hmac_sha512_internal(const void* key,
                    const void* data,
                    const size_t datalen,
                    void* out,
-                   const size_t outlen {
+                   const size_t outlen){
   uint8_t k[SHA512_BLOCK_SIZE];
   uint8_t k_ipad[SHA512_BLOCK_SIZE];
   uint8_t k_opad[SHA512_BLOCK_SIZE];
@@ -76,7 +76,7 @@ std::string hmac_sha512(const std::string key,
         char buf[2*SHA512_HASH_SIZE+1];
         buf[2*SHA512_HASH_SIZE] = 0;
         for (int i = 0; i < SHA512_HASH_SIZE; i++)
-                sprintf(buf+i*2, "%02x", out[i]);
+                sprintf(buf+i*2, "%02x", ((unsigned char*) out)[i]);
         return std::string(buf);
           
 }
