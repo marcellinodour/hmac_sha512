@@ -65,12 +65,41 @@ size_t hmac_sha512_internal(const void* key,
   return sz;
 }
 
+unsigned char hexchr2bin(const char hex)
+{
+	unsigned char result;
+
+	if (hex >= '0' && hex <= '9') {
+		result = hex - '0';
+	} else if (hex >= 'A' && hex <= 'F') {
+		result = hex - 'A' + 10;
+	} else if (hex >= 'a' && hex <= 'f') {
+		result = hex - 'a' + 10;
+	} else {
+		return 0;
+	}
+	return result;
+}
+
+void hexStringToBin(unsigned char *out,const char * hexPrivate) {
+    for (int i=0; i< (strlen(hexPrivate) / 2); i++){
+	out[i] = hexchr2bin(hexPrivate[2*i])<<4 | hexchr2bin(hexPrivate[2*i+1]);
+    }
+}
+
 std::string hmac_sha512(const std::string key,
                    const std::string data) {
 
         void* out = malloc(SHA512_HASH_SIZE);
-        size_t result = hmac_sha512_internal(key.c_str(), key.size(), 
-                                                data.c_str(), data.size(),
+  
+        unsigned char* binKey = malloc(key.size() / 2);
+        unsigned char* binData = malloc(data.size() / 2);
+  
+        hexStringToBin(binKey, key.c_str());
+        hexStringToBin(binData, data.c_str());
+  
+        size_t result = hmac_sha512_internal(binKey, (key.size() / 2), 
+                                                binData, (data.size() / 2),
                                                 out, SHA512_HASH_SIZE);
 
         char buf[2*SHA512_HASH_SIZE+1];
